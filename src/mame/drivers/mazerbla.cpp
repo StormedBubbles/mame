@@ -1049,7 +1049,7 @@ void mazerbla_state::greatgun(machine_config &config)
 	m_screen->set_refresh_hz(60);
 	m_screen->set_vblank_time(ATTOSECONDS_IN_USEC(2500) /* not accurate */);
 	m_screen->set_size(40*8, 32*8);
-	m_screen->set_visarea(0*8, 32*8-1, 0*8, 28*8-1);
+	m_screen->set_visarea(0*8, 32*8-1, 0*8, 32*8-1);
 	m_screen->set_screen_update(FUNC(mazerbla_state::screen_update_mazerbla));
 	m_screen->screen_vblank().set(FUNC(mazerbla_state::screen_vblank));
 
