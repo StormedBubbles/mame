@@ -735,6 +735,7 @@ void retro_osd_interface::process_mouse_state(running_machine &machine)
 
 void retro_osd_interface::process_lightgun_state(running_machine &machine)
 {
+
    unsigned i,j;
    for(j = 0;j < 8; j++)
    {
@@ -772,6 +773,40 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       }
       lightgunX[j] = gun_x_raw[j] * 2;
       lightgunY[j] = gun_y_raw[j] * 2;
+
+	  //Correct ratio for Blue Shark
+	  if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2.131;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
+	  //Correct offset for Great Guns
+      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2;
+		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
+	  }
+
+	  //Correct ratio for MESS plug-and-play systems
+      if (
+		       !core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup") ||
+			   !core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone") ||
+		       !core_stricmp(machine.system().name, "tmntmutm") || !core_stricmp(machine.system().parent, "tmntmutm")
+	     )
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 1.25;
+		 lightgunY[j] = gun_y_raw[j] * 1.875;
+	  }
+
+	  //Correct ratio for Poka Poka Satan
+      if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
+	  {
+		 lightgunX[0] = gun_x_raw[0] * 2.2535;
+		 lightgunY[0] = gun_y_raw[0] * 2.383;
+		 lightgunX[1] = gun_x_raw[1] * 2.2535 - 101339;
+		 lightgunY[1] = gun_y_raw[1] * 2.383;
+	  }
 	   
       //Place the cursor at a corner of the screen designated by "Lightgun offscreen position" when the cursor touches a min/max value
       if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ))
