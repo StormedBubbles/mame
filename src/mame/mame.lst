@@ -42056,6 +42056,8 @@ vs4jc                           // 2004.09 Virtua Striker 4 (Japan) (Rev C)
 
 @source:triplhnt.cpp
 triplhnt                        // 008422-008791    1977/04 [6800]
+triplhna                        // 008422-008791    1977/04 [6800]
+triplhnb                        // 008422-008791    1977/04 [6800]
 
 @source:triviaquiz.cpp
 triviaqz                        // 1985 Intermatic Manufacturing
