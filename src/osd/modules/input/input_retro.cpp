@@ -770,17 +770,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
             lightgunstate[j].lightgunBUT[1] = 0x80;
          }
       }
-
-      if (lightgun_hack == 1)
-	  {
-		  lightgunX[j] = gun_x_raw[j] * 2;
-          lightgunY[j] = gun_y_raw[j] * 2 + 12650;
-	  }
-	  else
-	  {
-		  lightgunX[j] = gun_x_raw[j] * 2;
-          lightgunY[j] = gun_y_raw[j] * 2;
-	  }
+      lightgunX[j] = gun_x_raw[j] * 2;
+      lightgunY[j] = gun_y_raw[j] * 2;
 	   
       //Place the cursor at a corner of the screen designated by "Lightgun offscreen position" when the cursor touches a min/max value
       if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ))
