@@ -788,15 +788,11 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
 	  }
 
-	  //Correct ratio for MESS plug-and-play systems
-      if (
-		       !core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup") ||
-			   !core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone") ||
-		       !core_stricmp(machine.system().name, "tmntmutm") || !core_stricmp(machine.system().parent, "tmntmutm")
-	     )
+	  //Correct ratio and offset for Mission: Paintball Powered Up
+      if (!core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 1.25;
-		 lightgunY[j] = gun_y_raw[j] * 1.875;
+		 lightgunX[j] = gun_x_raw[j] * 1.25 - 22231;
+		 lightgunY[j] = gun_y_raw[j] * 1.875 - 4622;
 	  }
 
 	  //Correct ratio for Poka Poka Satan
@@ -806,6 +802,20 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[0] = gun_y_raw[0] * 2.383;
 		 lightgunX[1] = gun_x_raw[1] * 2.2535 - 101339;
 		 lightgunY[1] = gun_y_raw[1] * 2.383;
+	  }
+
+	  //Correct ratio and offset for Star Wars: The Clone Wars
+      if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 1.25 - 16136;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
+	  //Correct ratio and offset for Teenage Mutant Ninja Turtles: Mutant and Monster Mayhem
+      if (!core_stricmp(machine.system().name, "tmntmutm") || !core_stricmp(machine.system().parent, "tmntmutm"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 1.25 - 14437;
+		 lightgunY[j] = gun_y_raw[j] * 1.875;
 	  }
 	   
       //Place the cursor at a corner of the screen designated by "Lightgun offscreen position" when the cursor touches a min/max value
