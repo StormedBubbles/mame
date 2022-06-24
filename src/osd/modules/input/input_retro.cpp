@@ -781,11 +781,25 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio for Dead Eye
+	  if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2.286;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct offset for Great Guns
       if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
 	  {
 		 lightgunX[j] = gun_x_raw[j] * 2;
 		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
+	  }
+
+	  //Correct ratio for Gypsy Juggler
+	  if (!core_stricmp(machine.system().name, "gypsyjug") || !core_stricmp(machine.system().parent, "gypsyjug"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2.286;
+		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
 	  //Correct ratio and offset for Mission: Paintball Powered Up
