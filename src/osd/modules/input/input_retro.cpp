@@ -781,10 +781,17 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio for Circus
+	  if (!core_stricmp(machine.system().name, "circus") || !core_stricmp(machine.system().parent, "circus"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 3.242;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct ratio for Dead Eye
 	  if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.286;
+		 lightgunX[j] = gun_x_raw[j] * 2.142;
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
@@ -798,7 +805,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio for Gypsy Juggler
 	  if (!core_stricmp(machine.system().name, "gypsyjug") || !core_stricmp(machine.system().parent, "gypsyjug"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.286;
+		 lightgunX[j] = gun_x_raw[j] * 2.142;
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
