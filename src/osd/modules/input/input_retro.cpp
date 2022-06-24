@@ -784,7 +784,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio for Circus
 	  if (!core_stricmp(machine.system().name, "circus") || !core_stricmp(machine.system().parent, "circus"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 3.242;
+		 lightgunX[j] = gun_x_raw[j] * 2.4;
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
