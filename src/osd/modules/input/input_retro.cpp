@@ -798,10 +798,10 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio for Poka Poka Satan
       if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  {
-		 lightgunX[0] = gun_x_raw[0] * 2.2535;
-		 lightgunY[0] = gun_y_raw[0] * 2.383;
-		 lightgunX[1] = gun_x_raw[1] * 2.2535 - 101339;
-		 lightgunY[1] = gun_y_raw[1] * 2.383;
+         lightgunX[0] = (gun_x_raw[0]*2.25) * 2.1 - 72771;
+         lightgunY[0] = (gun_y_raw[0]*2.38) * 2.13 - 75573;
+         lightgunX[1] = (gun_x_raw[1]*2.25) * 2.1 + 89394;
+         lightgunY[1] = (gun_y_raw[1]*2.38) * 2.13 - 75573;
 	  }
 
 	  //Correct ratio and offset for Star Wars: The Clone Wars
