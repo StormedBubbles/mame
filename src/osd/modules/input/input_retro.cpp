@@ -788,6 +788,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio and offset for Clowns
+	  if (!core_stricmp(machine.system().name, "clowns") || !core_stricmp(machine.system().parent, "clowns"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2.016 - 12386;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct ratio for Dead Eye
 	  if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
 	  {
@@ -816,7 +823,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 1.875 - 4622;
 	  }
 
-	  //Correct ratio for Poka Poka Satan
+	  //Correct ratio and offset for Poka Poka Satan
       if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  {
          lightgunX[0] = (gun_x_raw[0]*2.25) * 2.1 - 72771;
