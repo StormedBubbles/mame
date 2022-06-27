@@ -770,6 +770,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_AUX_A ) ) {
             lightgunstate[j].lightgunBUT[1] = 0x80;
          }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_AUX_B ) ) {
+            lightgunstate[j].lightgunBUT[2] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_AUX_C ) ) {
+            lightgunstate[j].lightgunBUT[3] = 0x80;
+         }
       }
       lightgunX[j] = gun_x_raw[j] * 2;
       lightgunY[j] = gun_y_raw[j] * 2;
