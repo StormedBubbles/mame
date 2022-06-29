@@ -801,6 +801,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio for Crazzy Clownz
+	  if (!core_stricmp(machine.system().name, "cclownz") || !core_stricmp(machine.system().parent, "cclownz"))
+	  {
+		 lightgunX[j] = gun_x_raw[j];
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct ratio for Dead Eye
 	  if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
 	  {
@@ -827,6 +834,24 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 lightgunX[j] = gun_x_raw[j] * 1.25 - 22231;
 		 lightgunY[j] = gun_y_raw[j] * 1.875 - 4622;
+	  }
+
+	  //Correct ratio and offset for Nintendo's PlayChoice-10 (Duck Hunt, Hogan's Alley, Wild Gunman)
+	  //Use the gun assigned to RetroArch port 1
+	  //Use GUNCODE_1 axes for single screen
+	  //Use GUNCODE_2 axes for stacked screens
+	  //Use GUNCODE_3 axes for side-by-side screens
+      if (!core_stricmp(machine.system().name, "pc_duckh") || !core_stricmp(machine.system().parent, "pc_duckh")
+		  || !core_stricmp(machine.system().name, "pc_hgaly") || !core_stricmp(machine.system().parent, "pc_hgaly")
+		  || !core_stricmp(machine.system().name, "pc_wgnmn") || !core_stricmp(machine.system().parent, "pc_wgnmn")
+		 )
+	  {
+         lightgunX[0] = gun_x_raw[0] * 2;
+         lightgunY[0] = gun_y_raw[0] * 2;
+         lightgunX[1] = gun_x_raw[0] * 2;
+         lightgunY[1] = gun_y_raw[0] * 4 - 65534;
+         lightgunX[2] = gun_x_raw[0] * 4 - 65534;
+         lightgunY[2] = gun_y_raw[0] * 2;
 	  }
 
 	  //Correct ratio and offset for Poka Poka Satan
