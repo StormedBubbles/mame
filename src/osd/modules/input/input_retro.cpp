@@ -815,8 +815,10 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
-	  //Correct offset for Great Guns
-      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
+	  //Correct offset for Great Guns and Mazer Blazer
+      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun") ||
+		  !core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla")
+		 )
 	  {
 		 lightgunX[j] = gun_x_raw[j] * 2;
 		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
