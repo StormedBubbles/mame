@@ -815,10 +815,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
-	  //Correct offset for Great Guns and Mazer Blazer
-      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun") ||
-		  !core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla")
-		 )
+	  //Correct offset for Great Guns
+      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
 	  {
 		 lightgunX[j] = gun_x_raw[j] * 2;
 		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
@@ -829,6 +827,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 lightgunX[j] = gun_x_raw[j] * 2.306;
 		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
+	  //Correct offset for Mazer Blazer
+      if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2;
+		 lightgunY[j] = gun_y_raw[j] * 2 + 8985;
 	  }
 
 	  //Correct ratio and offset for Mission: Paintball Powered Up
