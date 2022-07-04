@@ -870,6 +870,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          lightgunY[1] = (gun_y_raw[1]*2.38) * 2.13 - 75573;
 	  }
 
+	  //Correct offset for Space Walk
+      if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2 - 20123;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct ratio and offset for Star Wars: The Clone Wars
       if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
 	  {
