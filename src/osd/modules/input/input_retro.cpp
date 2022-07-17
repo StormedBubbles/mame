@@ -787,6 +787,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio and offset for Born to Fight
+	  if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2;
+		 lightgunY[j] = gun_y_raw[j] * 2.0706 - 1414;
+	  }
+
 	  //Correct ratio for Circus
 	  if (!core_stricmp(machine.system().name, "circus") || !core_stricmp(machine.system().parent, "circus"))
 	  {
