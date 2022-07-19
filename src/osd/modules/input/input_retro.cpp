@@ -801,6 +801,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Correct ratio and offset for Claybuster
+	  if (!core_stricmp(machine.system().name, "claybust") || !core_stricmp(machine.system().parent, "claybust"))
+	  {
+		 lightgunX[j] = gun_x_raw[j] * 2.0317 - 1046;
+		 lightgunY[j] = gun_y_raw[j] * 2;
+	  }
+
 	  //Correct ratio and offset for Clowns
 	  if (!core_stricmp(machine.system().name, "clowns") || !core_stricmp(machine.system().parent, "clowns"))
 	  {
