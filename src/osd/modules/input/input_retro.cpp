@@ -843,6 +843,48 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 lightgunY[j] = gun_y_raw[j] * 2;
 	  }
 
+	  //Lots of magic numbers for Lucky & Wild P2 X-axis
+	  int luckyx = 2 * (input_state_cb( 1, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X )) - 13351;
+	  if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
+	  {
+         if (luckyx < -65000) //Zone 1
+	     {
+   	        lightgunX[1] = 0.8271 * luckyx;
+	     }
+         if ((luckyx < -63000) && (luckyx >= -65000)) //Zone 2
+	     {
+   	        lightgunX[1] = (0.8271 * luckyx) - 1000;
+	     }
+         if ((luckyx < -58000) && (luckyx >= -63000)) //Zone 3
+	     {
+   	        lightgunX[1] = (0.8271 * luckyx) - 3000;
+	     }
+         if ((luckyx < -55000) && (luckyx >= -58000)) //Zone 4
+	     {
+   	        lightgunX[1] = (0.8271 * luckyx) - 2000;
+	     }
+         if ((luckyx < 0) && (luckyx >= -55000)) //Zone 5
+	     {
+   	        lightgunX[1] = (0.8271 * luckyx) - 4000;
+	     }
+         if ((luckyx >= 0) && (luckyx <= 45000)) //Zone 6
+	     {
+   	        lightgunX[1] = (1.2756 * luckyx) - 4000;
+	     }
+         if ((luckyx > 45000) && (luckyx <= 48000)) //Zone 7
+	     {
+   	        lightgunX[1] = (1.2756 * luckyx) + 1000;
+	     }
+         if ((luckyx > 48000) && (luckyx <= 50000)) //Zone 8
+	     {
+   	        lightgunX[1] = (1.2756 * luckyx) + 2000;
+	     }
+         if (luckyx > 50000) //Zone 9
+	     {
+   	        lightgunX[1] = 1.2756 * luckyx;
+	     }
+	  }
+
 	  //Correct offset for Mazer Blazer
       if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  {
