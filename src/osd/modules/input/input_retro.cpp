@@ -777,178 +777,209 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
             lightgunstate[j].lightgunBUT[3] = 0x80;
          }
       }
-      lightgunX[j] = gun_x_raw[j] * 2;
-      lightgunY[j] = gun_y_raw[j] * 2;
 
-	  //Correct ratio for Blue Shark
+	  int gun_x_scaled[8], gun_y_scaled[8];
+	  int luckyx = 2 * gun_x_raw[1] - 13351;
+
 	  if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
+	  //Correct ratio for Blue Shark
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.131;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.131;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  //Correct ratio and offset for Born to Fight
-	  if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2;
-		 lightgunY[j] = gun_y_raw[j] * 2.0706 - 1414;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2.0706 - 1414;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "circus") || !core_stricmp(machine.system().parent, "circus"))
 	  //Correct ratio for Circus
-	  if (!core_stricmp(machine.system().name, "circus") || !core_stricmp(machine.system().parent, "circus"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.4;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.4;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "claybust") || !core_stricmp(machine.system().parent, "claybust"))
 	  //Correct ratio and offset for Claybuster
-	  if (!core_stricmp(machine.system().name, "claybust") || !core_stricmp(machine.system().parent, "claybust"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.0317 - 1046;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.0317 - 1046;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "clowns") || !core_stricmp(machine.system().parent, "clowns"))
 	  //Correct ratio and offset for Clowns
-	  if (!core_stricmp(machine.system().name, "clowns") || !core_stricmp(machine.system().parent, "clowns"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.016 - 12386;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.016 - 12386;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "cclownz") || !core_stricmp(machine.system().parent, "cclownz"))
 	  //Correct ratio for Crazzy Clownz
-	  if (!core_stricmp(machine.system().name, "cclownz") || !core_stricmp(machine.system().parent, "cclownz"))
 	  {
-		 lightgunX[j] = gun_x_raw[j];
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j];
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
 	  //Correct ratio for Dead Eye
-	  if (!core_stricmp(machine.system().name, "deadeye") || !core_stricmp(machine.system().parent, "deadeye"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.306;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
 	  //Correct offset for Great Guns
-      if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2;
-		 lightgunY[j] = gun_y_raw[j] * 2 + 12650;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 12650;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "gypsyjug") || !core_stricmp(machine.system().parent, "gypsyjug"))
 	  //Correct ratio for Gypsy Juggler
-	  if (!core_stricmp(machine.system().name, "gypsyjug") || !core_stricmp(machine.system().parent, "gypsyjug"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2.306;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
 	  //Lots of magic numbers for Lucky & Wild P2 X-axis
-	  int luckyx = 2 * (input_state_cb( 1, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X )) - 13351;
-	  if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
 	  {
+		 gun_x_scaled[0] = gun_x_raw[0] * 2;
+		 gun_y_scaled[0] = gun_y_raw[0] * 2;
+		 gun_y_scaled[1] = gun_y_raw[1] * 2;
+		 gun_x_scaled[2] = gun_x_raw[2] * 2;
+		 gun_y_scaled[2] = gun_y_raw[2] * 2;
+		 gun_x_scaled[3] = gun_x_raw[3] * 2;
+		 gun_y_scaled[3] = gun_y_raw[3] * 2;
+		 gun_x_scaled[4] = gun_x_raw[4] * 2;
+		 gun_y_scaled[4] = gun_y_raw[4] * 2;
+		 gun_x_scaled[5] = gun_x_raw[5] * 2;
+		 gun_y_scaled[5] = gun_y_raw[5] * 2;
+		 gun_x_scaled[6] = gun_x_raw[6] * 2;
+		 gun_y_scaled[6] = gun_y_raw[6] * 2;
+		 gun_x_scaled[7] = gun_x_raw[7] * 2;
+		 gun_y_scaled[7] = gun_y_raw[7] * 2;
+
          if (luckyx < -65000) //Zone 1
 	     {
-   	        lightgunX[1] = 0.8271 * luckyx;
+   	        gun_x_scaled[1] = 0.8271 * luckyx;
 	     }
-         if ((luckyx < -63000) && (luckyx >= -65000)) //Zone 2
+         else if ((luckyx < -63000) && (luckyx >= -65000)) //Zone 2
 	     {
-   	        lightgunX[1] = (0.8271 * luckyx) - 1000;
+   	        gun_x_scaled[1] = (0.8271 * luckyx) - 1000;
 	     }
-         if ((luckyx < -58000) && (luckyx >= -63000)) //Zone 3
+         else if ((luckyx < -58000) && (luckyx >= -63000)) //Zone 3
 	     {
-   	        lightgunX[1] = (0.8271 * luckyx) - 3000;
+   	        gun_x_scaled[1] = (0.8271 * luckyx) - 3000;
 	     }
-         if ((luckyx < -55000) && (luckyx >= -58000)) //Zone 4
+         else if ((luckyx < -55000) && (luckyx >= -58000)) //Zone 4
 	     {
-   	        lightgunX[1] = (0.8271 * luckyx) - 2000;
+   	        gun_x_scaled[1] = (0.8271 * luckyx) - 2000;
 	     }
-         if ((luckyx < 0) && (luckyx >= -55000)) //Zone 5
+         else if ((luckyx < 0) && (luckyx >= -55000)) //Zone 5
 	     {
-   	        lightgunX[1] = (0.8271 * luckyx) - 4000;
+   	        gun_x_scaled[1] = (0.8271 * luckyx) - 4000;
 	     }
-         if ((luckyx >= 0) && (luckyx <= 45000)) //Zone 6
+         else if ((luckyx >= 0) && (luckyx <= 45000)) //Zone 6
 	     {
-   	        lightgunX[1] = (1.2756 * luckyx) - 4000;
+   	        gun_x_scaled[1] = (1.2756 * luckyx) - 4000;
 	     }
-         if ((luckyx > 45000) && (luckyx <= 48000)) //Zone 7
+         else if ((luckyx > 45000) && (luckyx <= 48000)) //Zone 7
 	     {
-   	        lightgunX[1] = (1.2756 * luckyx) + 1000;
+   	        gun_x_scaled[1] = (1.2756 * luckyx) + 1000;
 	     }
-         if ((luckyx > 48000) && (luckyx <= 50000)) //Zone 8
+         else if ((luckyx > 48000) && (luckyx <= 50000)) //Zone 8
 	     {
-   	        lightgunX[1] = (1.2756 * luckyx) + 2000;
+   	        gun_x_scaled[1] = (1.2756 * luckyx) + 2000;
 	     }
-         if (luckyx > 50000) //Zone 9
+         else //if (luckyx > 50000) Zone 9
 	     {
-   	        lightgunX[1] = 1.2756 * luckyx;
+   	        gun_x_scaled[1] = 1.2756 * luckyx;
 	     }
 	  }
-
+      else if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  //Correct offset for Mazer Blazer
-      if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2;
-		 lightgunY[j] = gun_y_raw[j] * 2 + 8985;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 8985;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup"))
 	  //Correct ratio and offset for Mission: Paintball Powered Up
-      if (!core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 1.25 - 22231;
-		 lightgunY[j] = gun_y_raw[j] * 1.875 - 4622;
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 22231;
+		 gun_y_scaled[j] = gun_y_raw[j] * 1.875 - 4622;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "pc_duckh") || !core_stricmp(machine.system().parent, "pc_duckh")
+		  || !core_stricmp(machine.system().name, "pc_hgaly") || !core_stricmp(machine.system().parent, "pc_hgaly")
+		  || !core_stricmp(machine.system().name, "pc_wgnmn") || !core_stricmp(machine.system().parent, "pc_wgnmn")
+		 )
 	  //Correct ratio and offset for Nintendo's PlayChoice-10 (Duck Hunt, Hogan's Alley, Wild Gunman)
 	  //Use the gun assigned to RetroArch port 1
 	  //Use GUNCODE_1 axes for single screen
 	  //Use GUNCODE_2 axes for stacked screens
 	  //Use GUNCODE_3 axes for side-by-side screens
-      if (!core_stricmp(machine.system().name, "pc_duckh") || !core_stricmp(machine.system().parent, "pc_duckh")
-		  || !core_stricmp(machine.system().name, "pc_hgaly") || !core_stricmp(machine.system().parent, "pc_hgaly")
-		  || !core_stricmp(machine.system().name, "pc_wgnmn") || !core_stricmp(machine.system().parent, "pc_wgnmn")
-		 )
 	  {
-         lightgunX[0] = gun_x_raw[0] * 2;
-         lightgunY[0] = gun_y_raw[0] * 2;
-         lightgunX[1] = gun_x_raw[0] * 2;
-         lightgunY[1] = gun_y_raw[0] * 4 - 65534;
-         lightgunX[2] = gun_x_raw[0] * 4 - 65534;
-         lightgunY[2] = gun_y_raw[0] * 2;
+         gun_x_scaled[0] = gun_x_raw[0] * 2;
+         gun_y_scaled[0] = gun_y_raw[0] * 2;
+         gun_x_scaled[1] = gun_x_raw[0] * 2;
+         gun_y_scaled[1] = gun_y_raw[0] * 4 - 65534;
+         gun_x_scaled[2] = gun_x_raw[0] * 4 - 65534;
+         gun_y_scaled[2] = gun_y_raw[0] * 2;
+         gun_x_scaled[3] = gun_x_raw[0] * 2;
+         gun_y_scaled[3] = gun_y_raw[0] * 2;
+         gun_x_scaled[4] = gun_x_raw[0] * 2;
+         gun_y_scaled[4] = gun_y_raw[0] * 2;
+         gun_x_scaled[5] = gun_x_raw[0] * 2;
+         gun_y_scaled[5] = gun_y_raw[0] * 2;
+         gun_x_scaled[6] = gun_x_raw[0] * 2;
+         gun_y_scaled[6] = gun_y_raw[0] * 2;
+         gun_x_scaled[7] = gun_x_raw[0] * 2;
+         gun_y_scaled[7] = gun_y_raw[0] * 2;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  //Correct ratio and offset for Poka Poka Satan
-      if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  {
-         lightgunX[0] = (gun_x_raw[0]*2.25) * 2.1 - 72771;
-         lightgunY[0] = (gun_y_raw[0]*2.38) * 2.13 - 75573;
-         lightgunX[1] = (gun_x_raw[1]*2.25) * 2.1 + 89394;
-         lightgunY[1] = (gun_y_raw[1]*2.38) * 2.13 - 75573;
+         gun_x_scaled[0] = (gun_x_raw[0]*2.25) * 2.1 - 72771;
+         gun_y_scaled[0] = (gun_y_raw[0]*2.38) * 2.13 - 75573;
+         gun_x_scaled[1] = (gun_x_raw[1]*2.25) * 2.1 + 89394;
+         gun_y_scaled[1] = (gun_y_raw[1]*2.38) * 2.13 - 75573;
+         gun_x_scaled[2] = gun_x_raw[2] * 2;
+         gun_y_scaled[2] = gun_y_raw[2] * 2;
+         gun_x_scaled[3] = gun_x_raw[3] * 2;
+         gun_y_scaled[3] = gun_y_raw[3] * 2;
+         gun_x_scaled[4] = gun_x_raw[4] * 2;
+         gun_y_scaled[4] = gun_y_raw[4] * 2;
+         gun_x_scaled[5] = gun_x_raw[5] * 2;
+         gun_y_scaled[5] = gun_y_raw[5] * 2;
+         gun_x_scaled[6] = gun_x_raw[6] * 2;
+         gun_y_scaled[6] = gun_y_raw[6] * 2;
+         gun_x_scaled[7] = gun_x_raw[7] * 2;
+         gun_y_scaled[7] = gun_y_raw[7] * 2;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
 	  //Correct offset for Space Walk
-      if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 2 - 20123;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 20123;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
-
+      else if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
 	  //Correct ratio and offset for Star Wars: The Clone Wars
-      if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
 	  {
-		 lightgunX[j] = gun_x_raw[j] * 1.25 - 16136;
-		 lightgunY[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 16136;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "tmntmutm") || !core_stricmp(machine.system().parent, "tmntmutm"))
+	  //Correct ratio and offset for Teenage Mutant Ninja Turtles: Mutant and Monster Mayhem
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 14437;
+		 gun_y_scaled[j] = gun_y_raw[j] * 1.875;
+	  }
+      else
+	  {
+         gun_x_scaled[j] = gun_x_raw[j] * 2;
+         gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
 
-	  //Correct ratio and offset for Teenage Mutant Ninja Turtles: Mutant and Monster Mayhem
-      if (!core_stricmp(machine.system().name, "tmntmutm") || !core_stricmp(machine.system().parent, "tmntmutm"))
-	  {
-		 lightgunX[j] = gun_x_raw[j] * 1.25 - 14437;
-		 lightgunY[j] = gun_y_raw[j] * 1.875;
-	  }
-	   
+
       //Place the cursor at a corner of the screen designated by "Lightgun offscreen position" when the cursor touches a min/max value
-      if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ))
+      //The LIGHTGUN_RELOAD input will fire a shot at the bottom-right corner if "Lightgun offscreen position" is set to "fixed (bottom right)"
+	  //That same input will fire a shot at the top-left corner otherwise
+	  //The reload feature of some games fails at the top-left corner
+      if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ) && !input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD ))
 	  {
 		 if (lightgun_offscreen_mode == 1)
 		 {
@@ -960,12 +991,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		    lightgunX[j] = 65535;
 	        lightgunY[j] = 65535;
 		 }
+		 else
+		 {
+		    lightgunX[j] = gun_x_scaled[j];
+	        lightgunY[j] = gun_y_scaled[j];
+		 }
 	  }
-
-      //The LIGHTGUN_RELOAD input will fire a shot at the bottom-right corner if "Lightgun offscreen position" is set to "fixed (bottom right)"
-	  //That same input will fire a shot at the top-left corner otherwise
-	  //The reload feature of some games fails at the top-left corner
-      if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD ) )
+      else if (!input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ) && input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD ))
 	  {
 		 if (lightgun_offscreen_mode == 2)
 		 {
@@ -978,6 +1010,25 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	        lightgunY[j] = -65535;
 		 }
 	  }
+      else if (input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN ) && input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD ))
+	  {
+		 if (lightgun_offscreen_mode == 2)
+		 {
+		    lightgunX[j] = 65535;
+	        lightgunY[j] = 65535;
+		 }
+		 else
+		 {
+		    lightgunX[j] = -65535;
+	        lightgunY[j] = -65535;
+		 }
+	  }
+	  else
+      {
+	     lightgunX[j] = gun_x_scaled[j];
+	     lightgunY[j] = gun_y_scaled[j];
+	  }
+	  
    }
 }
 
