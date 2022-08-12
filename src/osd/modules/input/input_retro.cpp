@@ -642,8 +642,8 @@ void retro_osd_interface::process_mouse_state(running_machine &machine)
          mouse_l[i] = input_state_cb(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT);
          mouse_r[i] = input_state_cb(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT);
          mouse_m[i] = input_state_cb(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE);
-         mouseLX[i] = mouse_x[i]*INPUT_RELATIVE_PER_PIXEL;
-         mouseLY[i] = mouse_y[i]*INPUT_RELATIVE_PER_PIXEL;
+         mouseLX[i] = mouse_x[i]*osd::INPUT_RELATIVE_PER_PIXEL;
+         mouseLY[i] = mouse_y[i]*osd::INPUT_RELATIVE_PER_PIXEL;
 
          static int vmx=fb_width/2,vmy=fb_height/2;
          static int ovmx=fb_width/2,ovmy=fb_height/2;
