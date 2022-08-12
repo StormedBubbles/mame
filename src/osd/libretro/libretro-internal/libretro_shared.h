@@ -91,7 +91,7 @@ extern int mouseBUT[4];
 
 extern int lightgunX[8];
 extern int lightgunY[8];
-extern int lightgunBUT[4];
+extern int lightgunBUT[10];
 
 extern unsigned short retrokbd_state[RETROK_LAST];
 

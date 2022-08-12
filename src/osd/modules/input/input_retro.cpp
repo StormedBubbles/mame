@@ -745,7 +745,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          return;
       }
 
-      for (i = 0; i < 4; i++) {
+      for (i = 0; i < 10; i++) {
          lightgunstate[j].lightgunBUT[i] = 0;
       }
 
@@ -775,6 +775,24 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          }
          if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_AUX_C ) ) {
             lightgunstate[j].lightgunBUT[3] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SELECT ) ) {
+            lightgunstate[j].lightgunBUT[4] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_START ) ) {
+            lightgunstate[j].lightgunBUT[5] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_DPAD_UP ) ) {
+            lightgunstate[j].lightgunBUT[6] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_DPAD_DOWN ) ) {
+            lightgunstate[j].lightgunBUT[7] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_DPAD_LEFT ) ) {
+            lightgunstate[j].lightgunBUT[8] = 0x80;
+         }
+         if ( input_state_cb( j, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_DPAD_RIGHT ) ) {
+            lightgunstate[j].lightgunBUT[9] = 0x80;
          }
       }
 
@@ -1391,7 +1409,7 @@ public:
 		   lightgunX[j]=fb_width/2;
 		   lightgunY[j]=fb_height/2;
   		   int i;
- 		   for(i = 0; i < 4; i++)lightgunstate[j].lightgunBUT[i]=0;
+ 		   for(i = 0; i < 10; i++)lightgunstate[j].lightgunBUT[i]=0;
 	   }
 	}
 
@@ -1444,7 +1462,7 @@ public:
 				   &lightgunY[i]);
 
 		   int button;
-		   for (button = 0; button < 4; button++)
+		   for (button = 0; button < 10; button++)
 		   {
 			   lightgunstate[i].lightgunBUT[button]=0;
 			   devinfo.device()->add_item(

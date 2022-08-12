@@ -29,7 +29,7 @@ typedef struct mousestate_t
 
 typedef struct lightgunstate_t
 {
-   int lightgunBUT[4];
+   int lightgunBUT[10];
 }Lightgunstate;
 
 struct KeyPressEventArgs
