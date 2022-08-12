@@ -823,6 +823,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+	  else if (!core_stricmp(machine.system().name, "gdfs") || !core_stricmp(machine.system().parent, "gdfs"))
+	  //Correct ratio and offset for Mobil Suit Gundam: Final Shooting
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.3429 - 11366;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 21845;
+	  }
       else if (!core_stricmp(machine.system().name, "greatgun") || !core_stricmp(machine.system().parent, "greatgun"))
 	  //Correct offset for Great Guns
 	  {
