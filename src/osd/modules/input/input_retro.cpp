@@ -974,6 +974,18 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          gun_x_scaled[7] = gun_x_raw[7] * 2;
          gun_y_scaled[7] = gun_y_raw[7] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "seawolf") || !core_stricmp(machine.system().parent, "seawolf"))
+	  //Correct ratio and offset for Sea Wolf
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.14 - 4909;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "seawolf") || !core_stricmp(machine.system().parent, "seawolf"))
+	  //Correct ratio and offset for Sea Wolf II
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 0.9 - 2064;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
       else if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
 	  //Correct offset for Space Walk
 	  {
