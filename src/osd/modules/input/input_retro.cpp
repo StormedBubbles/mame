@@ -841,6 +841,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
+	  //Correct ratio for Firefox
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.96 + 1638;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2.6 - 13106;
+	  }
 	  else if (!core_stricmp(machine.system().name, "gdfs") || !core_stricmp(machine.system().parent, "gdfs"))
 	  //Correct ratio and offset for Mobil Suit Gundam: Final Shooting
 	  {
@@ -993,7 +999,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
-	  //Correct ratio and offset for Star Wars: The Clone Wars
+	  //Correct ratio and offset for Star Wars: Clone Trooper Blaster Game
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 16136;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
