@@ -845,7 +845,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio for Firefox
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 1.96 + 1638;
-		 gun_y_scaled[j] = gun_y_raw[j] * 2.6 - 13106;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2.6 + 13107;
 	  }
 	  else if (!core_stricmp(machine.system().name, "gdfs") || !core_stricmp(machine.system().parent, "gdfs"))
 	  //Correct ratio and offset for Mobil Suit Gundam: Final Shooting
