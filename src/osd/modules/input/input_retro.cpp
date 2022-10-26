@@ -1011,10 +1011,30 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_y_scaled[j] = gun_y_raw[j] * 1.875;
 	  }
       else if (!core_stricmp(machine.system().name, "topgunnr") || !core_stricmp(machine.system().parent, "topgunnr"))
-	  //Correct ratio and offset for Top Gunner (Exidy)
+	  //Correct ratio for Top Gunner (Exidy)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 3.2;
 		 gun_y_scaled[j] = gun_y_raw[j] * 3;
+	  }
+      else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
+	  //Correct ratio and offset for Wild Pilot
+	  {
+		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 2294;
+		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 + 655;
+		 gun_x_scaled[1] = gun_x_raw[1] * 2 - 21312;
+		 gun_y_scaled[1] = gun_y_raw[1] * 2;
+		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 2294;
+		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 + 655;
+		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 2294;
+		 gun_y_scaled[3] = gun_y_raw[3] * 1.22 + 655;
+		 gun_x_scaled[4] = gun_x_raw[4] * 1.1 + 2294;
+		 gun_y_scaled[4] = gun_y_raw[4] * 1.22 + 655;
+		 gun_x_scaled[5] = gun_x_raw[5] * 1.1 + 2294;
+		 gun_y_scaled[5] = gun_y_raw[5] * 1.22 + 655;
+		 gun_x_scaled[6] = gun_x_raw[6] * 1.1 + 2294;
+		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 + 655;
+		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 2294;
+		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 + 655;
 	  }
       else
 	  {
