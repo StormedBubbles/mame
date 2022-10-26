@@ -1010,6 +1010,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 14437;
 		 gun_y_scaled[j] = gun_y_raw[j] * 1.875;
 	  }
+      else if (!core_stricmp(machine.system().name, "topgunnr") || !core_stricmp(machine.system().parent, "topgunnr"))
+	  //Correct ratio and offset for Top Gunner (Exidy)
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 3.2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3;
+	  }
       else
 	  {
          gun_x_scaled[j] = gun_x_raw[j] * 2;
