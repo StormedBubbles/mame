@@ -983,13 +983,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "seawolf") || !core_stricmp(machine.system().parent, "seawolf"))
 	  //Correct ratio and offset for Sea Wolf
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2.14 - 2454;
+		 gun_x_scaled[j] = (gun_x_raw[j] * 2.14 - 2454) * 1.35 + 1370;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "seawolf2") || !core_stricmp(machine.system().parent, "seawolf2"))
 	  //Correct ratio and offset for Sea Wolf II
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 0.9 - 3906;
+		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 250;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
@@ -1019,21 +1019,21 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
 	  //Correct ratio and offset for Wild Pilot
 	  {
-		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 2294;
+		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 4588;
 		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 + 655;
 		 gun_x_scaled[1] = gun_x_raw[1] * 2 - 21312;
 		 gun_y_scaled[1] = gun_y_raw[1] * 2;
-		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 2294;
+		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 4588;
 		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 + 655;
-		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 2294;
+		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 4588;
 		 gun_y_scaled[3] = gun_y_raw[3] * 1.22 + 655;
-		 gun_x_scaled[4] = gun_x_raw[4] * 1.1 + 2294;
+		 gun_x_scaled[4] = gun_x_raw[4] * 1.1 + 4588;
 		 gun_y_scaled[4] = gun_y_raw[4] * 1.22 + 655;
-		 gun_x_scaled[5] = gun_x_raw[5] * 1.1 + 2294;
+		 gun_x_scaled[5] = gun_x_raw[5] * 1.1 + 4588;
 		 gun_y_scaled[5] = gun_y_raw[5] * 1.22 + 655;
-		 gun_x_scaled[6] = gun_x_raw[6] * 1.1 + 2294;
+		 gun_x_scaled[6] = gun_x_raw[6] * 1.1 + 4588;
 		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 + 655;
-		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 2294;
+		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 4588;
 		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 + 655;
 	  }
       else
