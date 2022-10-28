@@ -805,6 +805,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.131;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+	  else if (!core_stricmp(machine.system().name, "bshark") || !core_stricmp(machine.system().parent, "bshark"))
+	  //Correct ratio and offset for Battle Shark
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 + 3121;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
 	  else if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  //Correct ratio and offset for Born to Fight
 	  {
@@ -990,6 +996,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Sea Wolf II
 	  {
 		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 499;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "skyraid") || !core_stricmp(machine.system().parent, "skyraid"))
+	  //Correct offset for Sky Raider
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 5;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
