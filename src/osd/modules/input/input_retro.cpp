@@ -808,8 +808,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  else if (!core_stricmp(machine.system().name, "bshark") || !core_stricmp(machine.system().parent, "bshark"))
 	  //Correct ratio and offset for Battle Shark
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2 + 3121;
-		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 247;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 3368;
 	  }
 	  else if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  //Correct ratio and offset for Born to Fight
@@ -850,7 +850,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
 	  //Correct ratio for Firefox
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 1.96 + 1638;
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.96 + 4574;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2.6 + 13107;
 	  }
 	  else if (!core_stricmp(machine.system().name, "gdfs") || !core_stricmp(machine.system().parent, "gdfs"))
@@ -998,6 +998,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 499;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "sharrier") || !core_stricmp(machine.system().parent, "sharrier"))
+	  //Correct ratio and offset for Space Harrier
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 1404;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 3618;
+	  }
       else if (!core_stricmp(machine.system().name, "skyraid") || !core_stricmp(machine.system().parent, "skyraid"))
 	  //Correct offset for Sky Raider
 	  {
@@ -1032,21 +1038,21 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Wild Pilot
 	  {
 		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 4588;
-		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 + 655;
-		 gun_x_scaled[1] = gun_x_raw[1] * 2 - 21312;
-		 gun_y_scaled[1] = gun_y_raw[1] * 2;
+		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 - 1095;
+		 gun_x_scaled[1] = gun_x_raw[1] * 2 + 4840;
+		 gun_y_scaled[1] = gun_y_raw[1] * 2 + 1437;
 		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 4588;
-		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 + 655;
+		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 - 1095;
 		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 4588;
-		 gun_y_scaled[3] = gun_y_raw[3] * 1.22 + 655;
+		 gun_y_scaled[3] = gun_y_raw[3] * 1.22 - 1095;
 		 gun_x_scaled[4] = gun_x_raw[4] * 1.1 + 4588;
-		 gun_y_scaled[4] = gun_y_raw[4] * 1.22 + 655;
+		 gun_y_scaled[4] = gun_y_raw[4] * 1.22 - 1095;
 		 gun_x_scaled[5] = gun_x_raw[5] * 1.1 + 4588;
-		 gun_y_scaled[5] = gun_y_raw[5] * 1.22 + 655;
+		 gun_y_scaled[5] = gun_y_raw[5] * 1.22 - 1095;
 		 gun_x_scaled[6] = gun_x_raw[6] * 1.1 + 4588;
-		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 + 655;
+		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 - 1095;
 		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 4588;
-		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 + 655;
+		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 - 1095;
 	  }
       else
 	  {
