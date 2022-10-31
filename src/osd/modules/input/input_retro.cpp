@@ -798,6 +798,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 
 	  int gun_x_scaled[8], gun_y_scaled[8];
 	  int luckyx = 2 * gun_x_raw[1] - 13351;
+	  int wildpilotx = gun_x_raw[1] * 2 - 5834;
+	  int wildpiloty = gun_y_raw[1] * 2 + 189;
 
 	  if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
 	  //Correct ratio for Blue Shark
@@ -1039,8 +1041,6 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 4588;
 		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 - 1095;
-		 gun_x_scaled[1] = gun_x_raw[1] * 2 - 5834;
-		 gun_y_scaled[1] = gun_y_raw[1] * 2 + 189;
 		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 4588;
 		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 - 1095;
 		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 4588;
@@ -1053,6 +1053,24 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 - 1095;
 		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 4588;
 		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 - 1095;
+
+		 if (wildpilotx < -5834)
+		 {
+			 gun_x_scaled[1] = wildpilotx * 0.45;
+		 }
+		 else
+		 {
+			 gun_x_scaled[1] = wildpilotx * 0.675;
+		 }
+
+		 if (wildpiloty < 189)
+		 {
+			 gun_y_scaled[1] = wildpiloty * 0.6;
+		 }
+		 else
+		 {
+			 gun_y_scaled[1] = wildpiloty * 0.65;
+		 }
 	  }
       else
 	  {
