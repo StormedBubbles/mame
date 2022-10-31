@@ -1039,8 +1039,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 4588;
 		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 - 1095;
-		 gun_x_scaled[1] = gun_x_raw[1] * 2 + 4840;
-		 gun_y_scaled[1] = gun_y_raw[1] * 2 + 1437;
+		 gun_x_scaled[1] = gun_x_raw[1] * 2 - 5834;
+		 gun_y_scaled[1] = gun_y_raw[1] * 2 + 189;
 		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 4588;
 		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 - 1095;
 		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 4588;
