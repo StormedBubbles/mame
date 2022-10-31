@@ -1001,8 +1001,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "sharrier") || !core_stricmp(machine.system().parent, "sharrier"))
 	  //Correct ratio and offset for Space Harrier
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 1404;
-		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 3618;
+		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 1404) * 1.2;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 + 3618) * 0.5;
 	  }
       else if (!core_stricmp(machine.system().name, "skyraid") || !core_stricmp(machine.system().parent, "skyraid"))
 	  //Correct offset for Sky Raider
