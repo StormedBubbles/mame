@@ -811,7 +811,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Battle Shark
 	  {
 		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 247) * 0.72;
-		 gun_y_scaled[j] = (gun_y_raw[j] * 2 + 3368) * 0.6 + 2998;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 + 3368) * 0.6 + 226;
 	  }
 	  else if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  //Correct ratio and offset for Born to Fight
@@ -1056,20 +1056,20 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 
 		 if (wildpilotx < -5834)
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.45;
+			 gun_x_scaled[1] = wildpilotx * 0.45 - 2675;
 		 }
 		 else
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.675;
+			 gun_x_scaled[1] = wildpilotx * 0.675 - 5814;
 		 }
 
 		 if (wildpiloty < 189)
 		 {
-			 gun_y_scaled[1] = wildpiloty * 0.6;
+			 gun_y_scaled[1] = wildpiloty * 0.6 - 1660;
 		 }
 		 else
 		 {
-			 gun_y_scaled[1] = wildpiloty * 0.65;
+			 gun_y_scaled[1] = wildpiloty * 0.65 - 2557;
 		 }
 	  }
       else
