@@ -853,7 +853,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Destroyer
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
-		 gun_y_scaled[j] = gun_y_raw[j] * 1.5 + 82760;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3 + 82760;
 	  }
 	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
 	  //Correct ratio for Firefox
@@ -878,6 +878,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+	  else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
+	  //Correct ratio and offset for Lock-On
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2.5 - 7020;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 3122;
 	  }
 	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
 	  //Lots of magic numbers for Lucky & Wild P2 X-axis
