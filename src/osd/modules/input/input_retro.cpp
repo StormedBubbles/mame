@@ -1009,7 +1009,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "seawolf2") || !core_stricmp(machine.system().parent, "seawolf2"))
 	  //Correct ratio and offset for Sea Wolf II
 	  {
-		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 636;
+		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 2281;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "sharrier") || !core_stricmp(machine.system().parent, "sharrier"))
