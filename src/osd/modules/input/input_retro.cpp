@@ -813,6 +813,15 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.131;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+	  else if (!core_stricmp(machine.system().name, "bombbee") || !core_stricmp(machine.system().parent, "bombbee")
+		  || !core_stricmp(machine.system().name, "cutieq") || !core_stricmp(machine.system().parent, "cutieq")
+		  || !core_stricmp(machine.system().name, "geebee") || !core_stricmp(machine.system().parent, "geebee")
+		 )
+	  //Correct ratio for Bomb Bee, Cutie Q, and Gee Bee
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 3;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
 	  else if (!core_stricmp(machine.system().name, "bshark") || !core_stricmp(machine.system().parent, "bshark"))
 	  //Correct ratio and offset for Battle Shark
 	  {
@@ -952,6 +961,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 8985;
+	  }
+      else if (!core_stricmp(machine.system().name, "mmagic") || !core_stricmp(machine.system().parent, "mmagic"))
+	  //Correct offset for Monkey Magic
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 9172;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup"))
 	  //Correct ratio and offset for Mission: Paintball Powered Up
