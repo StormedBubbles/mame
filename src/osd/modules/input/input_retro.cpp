@@ -853,7 +853,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Destroyer
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
-		 gun_y_scaled[j] = gun_y_raw[j] * 3 + 82760;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3 - 82760;
 	  }
 	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
 	  //Correct ratio for Firefox
@@ -1066,7 +1066,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 4588;
 		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 - 1095;
 
-		 if (wildpilotx < -5834)
+		 if (wildpilotx * 0.675 - 5814 < -9752)
 		 {
 			 gun_x_scaled[1] = wildpilotx * 0.45 - 2675;
 		 }
