@@ -801,7 +801,13 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  int wildpilotx = gun_x_raw[1] * 2 - 5834;
 	  int wildpiloty = gun_y_raw[1] * 2 + 189;
 
-	  if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
+	  if (!core_stricmp(machine.system().name, "avalnche") || !core_stricmp(machine.system().parent, "avalnche"))
+	  //Correct ratio and offset for Avalanche
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] - 2900;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+	  else if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
 	  //Correct ratio for Blue Shark
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.131;
