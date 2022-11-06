@@ -868,7 +868,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  //Correct ratio and offset for Destroyer
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
-		 gun_y_scaled[j] = gun_y_raw[j] * 3 - 82760;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3 - 42749;
 	  }
 	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
 	  //Correct ratio for Firefox
@@ -1078,28 +1078,28 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
 	  //Correct ratio and offset for Wild Pilot
 	  {
-		 gun_x_scaled[0] = gun_x_raw[0] * 1.1 + 4588;
-		 gun_y_scaled[0] = gun_y_raw[0] * 1.22 - 1095;
-		 gun_x_scaled[2] = gun_x_raw[2] * 1.1 + 4588;
-		 gun_y_scaled[2] = gun_y_raw[2] * 1.22 - 1095;
-		 gun_x_scaled[3] = gun_x_raw[3] * 1.1 + 4588;
-		 gun_y_scaled[3] = gun_y_raw[3] * 1.22 - 1095;
-		 gun_x_scaled[4] = gun_x_raw[4] * 1.1 + 4588;
-		 gun_y_scaled[4] = gun_y_raw[4] * 1.22 - 1095;
-		 gun_x_scaled[5] = gun_x_raw[5] * 1.1 + 4588;
-		 gun_y_scaled[5] = gun_y_raw[5] * 1.22 - 1095;
-		 gun_x_scaled[6] = gun_x_raw[6] * 1.1 + 4588;
-		 gun_y_scaled[6] = gun_y_raw[6] * 1.22 - 1095;
-		 gun_x_scaled[7] = gun_x_raw[7] * 1.1 + 4588;
-		 gun_y_scaled[7] = gun_y_raw[7] * 1.22 - 1095;
+		 gun_x_scaled[0] = (gun_x_raw[0] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[0] = (gun_y_raw[0] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[2] = (gun_x_raw[2] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[2] = (gun_y_raw[2] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[3] = (gun_x_raw[3] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[3] = (gun_y_raw[3] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[4] = (gun_x_raw[4] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[4] = (gun_y_raw[4] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[5] = (gun_x_raw[5] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[5] = (gun_y_raw[5] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[6] = (gun_x_raw[6] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[6] = (gun_y_raw[6] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[7] = (gun_x_raw[7] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[7] = (gun_y_raw[7] * 1.22 - 1095) * 1.05 - 1598;
 
 		 if (wildpilotx * 0.675 - 5814 < -9752)
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.45 - 2675;
+			 gun_x_scaled[1] = wildpilotx * 0.45 - 3896;
 		 }
 		 else
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.675 - 5814;
+			 gun_x_scaled[1] = wildpilotx * 0.675 - 4044;
 		 }
 
 		 if (wildpiloty < 189)
