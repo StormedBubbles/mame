@@ -37599,8 +37599,10 @@ sagafoxf80                      //
 
 @source:sbrkout.cpp
 sbrkout                         // 033453-033455    1978/09 [6502]
+sbrkout2                        // 033453-033455    1978/09 [6502]
 sbrkout3                        // 033442-033452    1978/09 [6502]
 sbrkoutc                        // unrealeased proto
+sbrkoutc2                        // unrealeased proto
 sbrkoutct                       // 034555-034559 proto ???? [6502]
 
 @source:sbugger.cpp
