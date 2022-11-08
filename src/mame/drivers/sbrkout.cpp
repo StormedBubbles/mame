@@ -609,6 +609,24 @@ ROM_START( sbrkout ) // rev 04
 	ROM_LOAD( "006401.e2",    0x0100, 0x0020, CRC(857df8db) SHA1(06313d5bde03220b2bc313d18e50e4bb1d0cfbbb) )    /* memory mapper */
 ROM_END
 
+ROM_START( sbrkout2 ) // hacked-in clone of sbrkout
+	ROM_REGION( 0x4000, "maincpu", 0 )
+	ROM_LOAD( "033453.c1",    0x2800, 0x0800, CRC(a35d00e3) SHA1(53617ed1d362e82d6f45abd66056bffe23300e3b) )
+	ROM_LOAD( "033454.d1",    0x3000, 0x0800, CRC(d42ea79a) SHA1(66c9b29226cde36d1ac6d1e81f34ebb5c79eded4) )
+	ROM_LOAD( "033455.e1",    0x3800, 0x0800, CRC(e0a6871c) SHA1(1bdfa73d7b8d91e1c68b7847fc310cac314ee02d) )
+
+	ROM_REGION( 0x0400, "gfx1", 0 )
+	ROM_LOAD( "033280.p4",    0x0000, 0x0200, CRC(5a69ce85) SHA1(ad9078d12495c350738bdb0b1e1b6120d9e01f60) )
+	ROM_LOAD( "033281.r4",    0x0200, 0x0200, CRC(066bd624) SHA1(cfb86c7013a70b8375126b23a4e66df5f3b9186b) )
+
+	ROM_REGION( 0x0020, "gfx2", 0 )
+	ROM_LOAD( "033282.k6",    0x0000, 0x0020, CRC(6228736b) SHA1(bc176261dba11521df19d545ce604f8cc294287a) )
+
+	ROM_REGION( 0x0120, "proms", 0 )
+	ROM_LOAD( "006400.m2",    0x0000, 0x0100, CRC(b8094b4c) SHA1(82dc6799a19984f3b204ee3aeeb007e55afc8be3) )    /* sync (not used) */
+	ROM_LOAD( "006401.e2",    0x0100, 0x0020, CRC(857df8db) SHA1(06313d5bde03220b2bc313d18e50e4bb1d0cfbbb) )    /* memory mapper */
+ROM_END
+
 
 ROM_START( sbrkout3 ) // rev 03; main cpu roms are on 1024x4bit (82s137 or equiv) proms, otherwise seems identical to rev 04
 	ROM_REGION( 0x4000, "maincpu", 0 )
@@ -636,6 +654,22 @@ ROM_START( sbrkout3 ) // rev 03; main cpu roms are on 1024x4bit (82s137 or equiv
 ROM_END
 
 ROM_START( sbrkoutc ) // built from original Atari source code
+	ROM_REGION( 0x4000, "maincpu", 0 )
+	ROM_LOAD( "a33443.bin",   0x2800, 0x1800, CRC(bf418976) SHA1(d766e220a284a7b9caf876207e8191aff0497a03) )
+
+	ROM_REGION( 0x0400, "gfx1", 0 )
+	ROM_LOAD( "033280.p4",    0x0000, 0x0200, CRC(5a69ce85) SHA1(ad9078d12495c350738bdb0b1e1b6120d9e01f60) )
+	ROM_LOAD( "033281.r4",    0x0200, 0x0200, CRC(066bd624) SHA1(cfb86c7013a70b8375126b23a4e66df5f3b9186b) )
+
+	ROM_REGION( 0x0020, "gfx2", 0 )
+	ROM_LOAD( "033282.k6",    0x0000, 0x0020, CRC(6228736b) SHA1(bc176261dba11521df19d545ce604f8cc294287a) )
+
+	ROM_REGION( 0x0120, "proms", 0 )
+	ROM_LOAD( "006400.m2",    0x0000, 0x0100, CRC(b8094b4c) SHA1(82dc6799a19984f3b204ee3aeeb007e55afc8be3) )    /* sync (not used) */
+	ROM_LOAD( "006401.e2",    0x0100, 0x0020, CRC(857df8db) SHA1(06313d5bde03220b2bc313d18e50e4bb1d0cfbbb) )    /* memory mapper */
+ROM_END
+
+ROM_START( sbrkoutc2 ) // hacked-in clone of sbrkoutc
 	ROM_REGION( 0x4000, "maincpu", 0 )
 	ROM_LOAD( "a33443.bin",   0x2800, 0x1800, CRC(bf418976) SHA1(d766e220a284a7b9caf876207e8191aff0497a03) )
 
