@@ -953,8 +953,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
 	  //Correct ratio for Lock-On
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2 * 1.5;
-		 gun_y_scaled[j] = gun_y_raw[j] * 2 * 1.1;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 * 1.5 -16959;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2 * 1.1 +1029; 
 	  }
       else if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  //Correct offset for Mazer Blazer
