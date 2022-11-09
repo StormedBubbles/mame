@@ -1046,7 +1046,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "sbrkout") || !core_stricmp(machine.system().parent, "sbrkout"))
 	  //Correct ratio and offset for Super Breakout
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 1.76 - 3556;
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.76 - 6000;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "seawolf") || !core_stricmp(machine.system().parent, "seawolf"))
