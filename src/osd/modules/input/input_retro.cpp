@@ -800,6 +800,10 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  int luckyx = 2 * gun_x_raw[1] - 13351;
 	  int wildpilotx = gun_x_raw[1] * 2 - 5834;
 	  int wildpiloty = gun_y_raw[1] * 2 + 189;
+	  int lockonx[8];
+	  int lockony[8];
+	  lockonx[j] = gun_x_raw[j] * 2 * 1.5 - 16959;
+	  lockony[j] = gun_y_raw[j] * 2 * 1.1 + 1029;
 
 	  if (!core_stricmp(machine.system().name, "avalnche") || !core_stricmp(machine.system().parent, "avalnche"))
 	  //Correct ratio and offset for Avalanche
@@ -894,6 +898,27 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
+	  //Correct ratio and offset for Lock-On
+	  {
+		 if (lockonx[j] < -16221)
+		 {
+			 gun_x_scaled[j] = lockonx[j] * 0.9;
+		 }
+		 else
+		 {
+			 gun_x_scaled[j] = lockonx[j] * 1.2;
+		 }
+
+		 if (lockony[j] < 1235)
+		 {
+			 gun_y_scaled[j] = lockony[j] * 1.2;
+		 }
+		 else
+		 {
+			 gun_y_scaled[j] = lockony[j] * 0.9;
+		 }
+	  }
 	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
 	  //Lots of magic numbers for Lucky & Wild P2 X-axis
 	  {
@@ -949,12 +974,6 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	     {
    	        gun_x_scaled[1] = 1.2756 * luckyx;
 	     }
-	  }
-      else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
-	  //Correct ratio for Lock-On
-	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2 * 1.5 -16959;
-		 gun_y_scaled[j] = gun_y_raw[j] * 2 * 1.1 +1029; 
 	  }
       else if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  //Correct offset for Mazer Blazer
