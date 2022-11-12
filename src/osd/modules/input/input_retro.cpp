@@ -903,20 +903,20 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 if (lockonx[j] < -16221)
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 0.9;
+			 gun_x_scaled[j] = lockonx[j] * 0.9 + 4613;
 		 }
 		 else
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 1.2;
+			 gun_x_scaled[j] = lockonx[j] * 1.2 + 5982;
 		 }
 
 		 if (lockony[j] < 1235)
 		 {
-			 gun_y_scaled[j] = lockony[j] * 1.2;
+			 gun_y_scaled[j] = lockony[j] * 1.2 + 4614;
 		 }
 		 else
 		 {
-			 gun_y_scaled[j] = lockony[j] * 0.9;
+			 gun_y_scaled[j] = lockony[j] * 0.9 + 3399;
 		 }
 	  }
 	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
