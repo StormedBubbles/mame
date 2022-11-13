@@ -1025,15 +1025,23 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
 
-		 if(gun_y_raw[j] * 1.1 - 12732 <= -31200)
+		 if (gun_y_raw[j] * 1.1 - 12732 <= -41000)
+		 {
+		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 23062;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -41000 && gun_y_raw[j] * 1.1 - 12732 <= -31200)
 		 {
 		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 18062;
 		 }
-		 else if(gun_y_raw[j] * 1.1 - 12732 > -31200 && gun_y_raw[j] * 1.1 - 12732 <= 5500)
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -31200 && gun_y_raw[j] * 1.1 - 12732 <= -4000)
 		 {
 			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 16022;
 		 }
-		 else if(gun_y_raw[j] * 1.1 - 12732 > 5500 && gun_y_raw[j] * 1.1 - 12732 <= 12000)
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -4000 && gun_y_raw[j] * 1.1 - 12732 <= 5500)
+		 {
+			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 21022;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > 5500 && gun_y_raw[j] * 1.1 - 12732 <= 12000)
 		 {
 			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 15627;
 		 }
