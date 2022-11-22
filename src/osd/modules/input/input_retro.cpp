@@ -798,12 +798,39 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 
 	  int gun_x_scaled[8], gun_y_scaled[8];
 	  int luckyx = 2 * gun_x_raw[1] - 13351;
+	  int wildpilotx = gun_x_raw[1] * 2 - 5834;
+	  int wildpiloty = gun_y_raw[1] * 2 + 189;
+	  int lockonx[8];
+	  int lockony[8];
+	  lockonx[j] = gun_x_raw[j] * 2 * 1.5 - 16959;
+	  lockony[j] = gun_y_raw[j] * 2 * 1.1 + 1029;
 
-	  if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
+	  if (!core_stricmp(machine.system().name, "avalnche") || !core_stricmp(machine.system().parent, "avalnche"))
+	  //Correct ratio and offset for Avalanche
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] - 2900;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+	  else if (!core_stricmp(machine.system().name, "blueshrk") || !core_stricmp(machine.system().parent, "blueshrk"))
 	  //Correct ratio for Blue Shark
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.131;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+	  else if (!core_stricmp(machine.system().name, "bombbee") || !core_stricmp(machine.system().parent, "bombbee")
+		  || !core_stricmp(machine.system().name, "cutieq") || !core_stricmp(machine.system().parent, "cutieq")
+		  || !core_stricmp(machine.system().name, "geebee") || !core_stricmp(machine.system().parent, "geebee")
+		 )
+	  //Correct ratio for Bomb Bee, Cutie Q, and Gee Bee
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 3;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+	  else if (!core_stricmp(machine.system().name, "bshark") || !core_stricmp(machine.system().parent, "bshark"))
+	  //Correct ratio and offset for Battle Shark
+	  {
+		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 247) * 0.72;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 + 3368) * 0.6 + 226;
 	  }
 	  else if (!core_stricmp(machine.system().name, "borntofi") || !core_stricmp(machine.system().parent, "borntofi"))
 	  //Correct ratio and offset for Born to Fight
@@ -841,6 +868,18 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+	  else if (!core_stricmp(machine.system().name, "destroyr") || !core_stricmp(machine.system().parent, "destroyr"))
+	  //Correct ratio and offset for Destroyer
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3 - 42749;
+	  }
+	  else if (!core_stricmp(machine.system().name, "firefox") || !core_stricmp(machine.system().parent, "firefox"))
+	  //Correct ratio for Firefox
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.96 + 4574;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2.6 + 13107;
+	  }
 	  else if (!core_stricmp(machine.system().name, "gdfs") || !core_stricmp(machine.system().parent, "gdfs"))
 	  //Correct ratio and offset for Mobil Suit Gundam: Final Shooting
 	  {
@@ -858,6 +897,27 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
+	  //Correct ratio and offset for Lock-On
+	  {
+		 if (lockonx[j] < -16221)
+		 {
+			 gun_x_scaled[j] = lockonx[j] * 0.9 + 4613;
+		 }
+		 else
+		 {
+			 gun_x_scaled[j] = lockonx[j] * 1.2 + 5982;
+		 }
+
+		 if (lockony[j] < 1235)
+		 {
+			 gun_y_scaled[j] = lockony[j] * 1.2 + 4614;
+		 }
+		 else
+		 {
+			 gun_y_scaled[j] = lockony[j] * 0.9 + 3399;
+		 }
 	  }
 	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
 	  //Lots of magic numbers for Lucky & Wild P2 X-axis
@@ -921,6 +981,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2 + 8985;
 	  }
+      else if (!core_stricmp(machine.system().name, "mmagic") || !core_stricmp(machine.system().parent, "mmagic"))
+	  //Correct offset for Monkey Magic
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 9172;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
       else if (!core_stricmp(machine.system().name, "pballpup") || !core_stricmp(machine.system().parent, "pballpup"))
 	  //Correct ratio and offset for Mission: Paintball Powered Up
 	  {
@@ -954,6 +1020,36 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          gun_x_scaled[7] = gun_x_raw[0] * 2;
          gun_y_scaled[7] = gun_y_raw[0] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "pong") || !core_stricmp(machine.system().parent, "pong"))
+	  //Correct ratio and offset for Pong
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+
+		 if (gun_y_raw[j] * 1.1 - 12732 <= -41000)
+		 {
+		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 23062;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -41000 && gun_y_raw[j] * 1.1 - 12732 <= -31200)
+		 {
+		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 18062;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -31200 && gun_y_raw[j] * 1.1 - 12732 <= -4000)
+		 {
+			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 16022;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > -4000 && gun_y_raw[j] * 1.1 - 12732 <= 5500)
+		 {
+			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 21022;
+		 }
+		 else if (gun_y_raw[j] * 1.1 - 12732 > 5500 && gun_y_raw[j] * 1.1 - 12732 <= 12000)
+		 {
+			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 15627;
+		 }
+		 else
+		 {
+			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 12732;
+		 }
+	  }
       else if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  //Correct ratio and offset for Poka Poka Satan
 	  {
@@ -974,6 +1070,36 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          gun_x_scaled[7] = gun_x_raw[7] * 2;
          gun_y_scaled[7] = gun_y_raw[7] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "sbrkout") || !core_stricmp(machine.system().parent, "sbrkout"))
+	  //Correct ratio and offset for Super Breakout
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 1.76 - 7627;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "seawolf") || !core_stricmp(machine.system().parent, "seawolf"))
+	  //Correct ratio and offset for Sea Wolf
+	  {
+		 gun_x_scaled[j] = ((gun_x_raw[j] * 2.14 - 2454) * 1.35 + 1370) * 0.97;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "seawolf2") || !core_stricmp(machine.system().parent, "seawolf2"))
+	  //Correct ratio and offset for Sea Wolf II
+	  {
+		 gun_x_scaled[j] = (gun_x_raw[j] * 0.9 - 3906) * 1.3 + 2281;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
+      else if (!core_stricmp(machine.system().name, "sharrier") || !core_stricmp(machine.system().parent, "sharrier"))
+	  //Correct ratio and offset for Space Harrier
+	  {
+		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 1404) * 1.2;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 + 3618) * 0.5;
+	  }
+      else if (!core_stricmp(machine.system().name, "skyraid") || !core_stricmp(machine.system().parent, "skyraid"))
+	  //Correct offset for Sky Raider
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 5;
+		 gun_y_scaled[j] = gun_y_raw[j] * 2;
+	  }
       else if (!core_stricmp(machine.system().name, "spacwalk") || !core_stricmp(machine.system().parent, "spacwalk"))
 	  //Correct offset for Space Walk
 	  {
@@ -981,7 +1107,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
       else if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
-	  //Correct ratio and offset for Star Wars: The Clone Wars
+	  //Correct ratio and offset for Star Wars: Clone Trooper Blaster Game
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 16136;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
@@ -991,6 +1117,48 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 1.25 - 14437;
 		 gun_y_scaled[j] = gun_y_raw[j] * 1.875;
+	  }
+      else if (!core_stricmp(machine.system().name, "topgunnr") || !core_stricmp(machine.system().parent, "topgunnr"))
+	  //Correct ratio for Top Gunner (Exidy)
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 3.2;
+		 gun_y_scaled[j] = gun_y_raw[j] * 3;
+	  }
+      else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
+	  //Correct ratio and offset for Wild Pilot
+	  {
+		 gun_x_scaled[0] = (gun_x_raw[0] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[0] = (gun_y_raw[0] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[2] = (gun_x_raw[2] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[2] = (gun_y_raw[2] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[3] = (gun_x_raw[3] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[3] = (gun_y_raw[3] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[4] = (gun_x_raw[4] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[4] = (gun_y_raw[4] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[5] = (gun_x_raw[5] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[5] = (gun_y_raw[5] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[6] = (gun_x_raw[6] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[6] = (gun_y_raw[6] * 1.22 - 1095) * 1.05 - 1598;
+		 gun_x_scaled[7] = (gun_x_raw[7] * 1.1 + 4588) * 1.05 - 154;
+		 gun_y_scaled[7] = (gun_y_raw[7] * 1.22 - 1095) * 1.05 - 1598;
+
+		 if (wildpilotx * 0.675 - 5814 < -9752)
+		 {
+			 gun_x_scaled[1] = wildpilotx * 0.45 - 3896;
+		 }
+		 else
+		 {
+			 gun_x_scaled[1] = wildpilotx * 0.675 - 4044;
+		 }
+
+		 if (wildpiloty < 189)
+		 {
+			 gun_y_scaled[1] = wildpiloty * 0.6 - 1660;
+		 }
+		 else
+		 {
+			 gun_y_scaled[1] = wildpiloty * 0.65 - 2557;
+		 }
 	  }
       else
 	  {
