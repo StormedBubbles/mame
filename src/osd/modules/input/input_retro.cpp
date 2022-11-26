@@ -1106,6 +1106,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 20123;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "sshooter") || !core_stricmp(machine.system().parent, "sshooter"))
+	  //Correct ratio and offset for Sharpshooter
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 + 4214;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 3870) * 0.95;
+	  }
       else if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
 	  //Correct ratio and offset for Star Wars: Clone Trooper Blaster Game
 	  {
