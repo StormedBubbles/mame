@@ -1139,8 +1139,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "tshoot") || !core_stricmp(machine.system().parent, "tshoot"))
 	  //Correct ratio and offset for Turkey Shoot
 	  {
-		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 3463) * 0.85;
-		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 2619) * 1.075;
+		 gun_x_scaled[j] = (gun_x_raw[j] * 2 - 3463) * 0.85 - 1684;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 2619) * 1.075 - 939;
 	  }
       else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
 	  //Correct ratio and offset for Wild Pilot
