@@ -1023,8 +1023,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       else if (!core_stricmp(machine.system().name, "policetr") || !core_stricmp(machine.system().parent, "policetr"))
 	  //Correct ratio and offset for Police Trainer
 	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 2994;
-		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 7112) * 0.95;
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 7112) * 0.95 + 2607;
 	  }
       else if (!core_stricmp(machine.system().name, "pong") || !core_stricmp(machine.system().parent, "pong"))
 	  //Correct ratio and offset for Pong
