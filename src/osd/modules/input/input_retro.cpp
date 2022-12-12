@@ -804,6 +804,8 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  int lockony[8];
 	  lockonx[j] = gun_x_raw[j] * 2 * 1.5 - 16959;
 	  lockony[j] = gun_y_raw[j] * 2 * 1.1 + 1029;
+      int jpark1x = 2 * gun_x_raw[0] + 5243;
+      int jpark2x = 2 * gun_x_raw[1] - 5243;
 
 	  if (!core_stricmp(machine.system().name, "avalnche") || !core_stricmp(machine.system().parent, "avalnche"))
 	  //Correct ratio and offset for Avalanche
@@ -898,6 +900,44 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2.306;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "jpark") || !core_stricmp(machine.system().parent, "jpark"))
+	  //Correct ratio and offset for Jurassic Park
+      {
+         if (jpark1x < 0)
+	     {
+	        gun_x_scaled[0] = 2 * gun_x_raw[0] * 1.25 + 18000;
+	        gun_y_scaled[0] = 2 * gun_y_raw[0] * 0.5;
+	     }
+	     else
+	     {
+	        gun_x_scaled[0] = 2 * gun_x_raw[0] * 0.8 + 13500;
+	        gun_y_scaled[0] = 2 * gun_y_raw[0] * 0.5;
+	     }
+
+         if (jpark2x < 0)
+	     {
+	        gun_x_scaled[1] = 2 * gun_x_raw[1] * 0.8 - 12000;
+	        gun_y_scaled[1] = 2 * gun_y_raw[1] * 0.5;
+	     }
+	     else
+	     {
+	        gun_x_scaled[1] = 2 * gun_x_raw[1] * 1.25 - 16500;
+	        gun_y_scaled[1] = 2 * gun_y_raw[1] * 0.5;
+	     }
+
+             gun_x_scaled[2] = 2 * gun_x_raw[2];
+             gun_y_scaled[2] = 2 * gun_y_raw[2];
+             gun_x_scaled[3] = 2 * gun_x_raw[3];
+             gun_y_scaled[3] = 2 * gun_y_raw[3];
+             gun_x_scaled[4] = 2 * gun_x_raw[4];
+             gun_y_scaled[4] = 2 * gun_y_raw[4];
+             gun_x_scaled[5] = 2 * gun_x_raw[5];
+             gun_y_scaled[5] = 2 * gun_y_raw[5];
+             gun_x_scaled[6] = 2 * gun_x_raw[6];
+             gun_y_scaled[6] = 2 * gun_y_raw[6];
+             gun_x_scaled[7] = 2 * gun_x_raw[7];
+             gun_y_scaled[7] = 2 * gun_y_raw[7];
+      }
       else if (!core_stricmp(machine.system().name, "lockon") || !core_stricmp(machine.system().parent, "lockon"))
 	  //Correct ratio and offset for Lock-On
 	  {
