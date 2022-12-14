@@ -1060,6 +1060,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
          gun_x_scaled[7] = gun_x_raw[0] * 2;
          gun_y_scaled[7] = gun_y_raw[0] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "policetr") || !core_stricmp(machine.system().parent, "policetr"))
+	  //Correct ratio and offset for Police Trainer
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 7112) * 0.95 + 2607;
+	  }
       else if (!core_stricmp(machine.system().name, "pong") || !core_stricmp(machine.system().parent, "pong"))
 	  //Correct ratio and offset for Pong
 	  {
@@ -1146,6 +1152,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2 - 20123;
 		 gun_y_scaled[j] = gun_y_raw[j] * 2;
 	  }
+      else if (!core_stricmp(machine.system().name, "sshooter") || !core_stricmp(machine.system().parent, "sshooter"))
+	  //Correct ratio and offset for Sharpshooter
+	  {
+		 gun_x_scaled[j] = gun_x_raw[j] * 2 + 4214;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 3870) * 0.95 + 3084;
+	  }
       else if (!core_stricmp(machine.system().name, "swclone") || !core_stricmp(machine.system().parent, "swclone"))
 	  //Correct ratio and offset for Star Wars: Clone Trooper Blaster Game
 	  {
@@ -1163,6 +1175,12 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 gun_x_scaled[j] = gun_x_raw[j] * 3.2;
 		 gun_y_scaled[j] = gun_y_raw[j] * 3;
+	  }
+      else if (!core_stricmp(machine.system().name, "tshoot") || !core_stricmp(machine.system().parent, "tshoot"))
+	  //Correct ratio and offset for Turkey Shoot
+	  {
+		 gun_x_scaled[j] = (((gun_x_raw[j] * 2 - 3463) * 0.85 - 1684) * 0.96 + 240) * 1.02 + 345;
+		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 2619) * 1.075 - 939;
 	  }
       else if (!core_stricmp(machine.system().name, "wildplt") || !core_stricmp(machine.system().parent, "wildplt"))
 	  //Correct ratio and offset for Wild Pilot
