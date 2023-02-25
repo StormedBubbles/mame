@@ -797,7 +797,6 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
       }
 
 	  int gun_x_scaled[8], gun_y_scaled[8];
-	  int luckyx = 2 * gun_x_raw[1] - 13351;
 	  int wildpilotx = gun_x_raw[1] * 2 - 5834;
 	  int wildpiloty = gun_y_raw[1] * 2 + 189;
 	  int lockonx[8];
@@ -960,7 +959,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 }
 	  }
 	  else if (!core_stricmp(machine.system().name, "luckywld") || !core_stricmp(machine.system().parent, "luckywld"))
-	  //Lots of magic numbers for Lucky & Wild P2 X-axis
+	  //Correct ratio and offset for P2 in Lucky & Wild
 	  {
 		 gun_x_scaled[0] = gun_x_raw[0] * 2;
 		 gun_y_scaled[0] = gun_y_raw[0] * 2;
@@ -978,42 +977,14 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[7] = gun_x_raw[7] * 2;
 		 gun_y_scaled[7] = gun_y_raw[7] * 2;
 
-         if (luckyx < -65000) //Zone 1
-	     {
-   	        gun_x_scaled[1] = 0.8271 * luckyx;
-	     }
-         else if ((luckyx < -63000) && (luckyx >= -65000)) //Zone 2
-	     {
-   	        gun_x_scaled[1] = (0.8271 * luckyx) - 1000;
-	     }
-         else if ((luckyx < -58000) && (luckyx >= -63000)) //Zone 3
-	     {
-   	        gun_x_scaled[1] = (0.8271 * luckyx) - 3000;
-	     }
-         else if ((luckyx < -55000) && (luckyx >= -58000)) //Zone 4
-	     {
-   	        gun_x_scaled[1] = (0.8271 * luckyx) - 2000;
-	     }
-         else if ((luckyx < 0) && (luckyx >= -55000)) //Zone 5
-	     {
-   	        gun_x_scaled[1] = (0.8271 * luckyx) - 4000;
-	     }
-         else if ((luckyx >= 0) && (luckyx <= 45000)) //Zone 6
-	     {
-   	        gun_x_scaled[1] = (1.2756 * luckyx) - 4000;
-	     }
-         else if ((luckyx > 45000) && (luckyx <= 48000)) //Zone 7
-	     {
-   	        gun_x_scaled[1] = (1.2756 * luckyx) + 1000;
-	     }
-         else if ((luckyx > 48000) && (luckyx <= 50000)) //Zone 8
-	     {
-   	        gun_x_scaled[1] = (1.2756 * luckyx) + 2000;
-	     }
-         else //if (luckyx > 50000) Zone 9
-	     {
-   	        gun_x_scaled[1] = 1.2756 * luckyx;
-	     }
+		 if (gun_x_raw[1] < 0)
+		 {
+		    gun_x_scaled[1] = gun_x_raw[1] * 1.545 - 14809;
+		 }
+		 else
+		 {
+		    gun_x_scaled[1] = gun_x_raw[1] * 2.472 - 14809;
+		 }
 	  }
       else if (!core_stricmp(machine.system().name, "mazerbla") || !core_stricmp(machine.system().parent, "mazerbla"))
 	  //Correct offset for Mazer Blazer
