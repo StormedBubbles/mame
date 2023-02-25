@@ -1037,36 +1037,6 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 		 gun_x_scaled[j] = gun_x_raw[j] * 2;
 		 gun_y_scaled[j] = (gun_y_raw[j] * 2 - 7112) * 0.95 + 2607;
 	  }
-      else if (!core_stricmp(machine.system().name, "pong") || !core_stricmp(machine.system().parent, "pong"))
-	  //Correct ratio and offset for Pong
-	  {
-		 gun_x_scaled[j] = gun_x_raw[j] * 2;
-
-		 if (gun_y_raw[j] * 1.1 - 12732 <= -41000)
-		 {
-		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 23062;
-		 }
-		 else if (gun_y_raw[j] * 1.1 - 12732 > -41000 && gun_y_raw[j] * 1.1 - 12732 <= -31200)
-		 {
-		    gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 18062;
-		 }
-		 else if (gun_y_raw[j] * 1.1 - 12732 > -31200 && gun_y_raw[j] * 1.1 - 12732 <= -4000)
-		 {
-			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 16022;
-		 }
-		 else if (gun_y_raw[j] * 1.1 - 12732 > -4000 && gun_y_raw[j] * 1.1 - 12732 <= 5500)
-		 {
-			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 21022;
-		 }
-		 else if (gun_y_raw[j] * 1.1 - 12732 > 5500 && gun_y_raw[j] * 1.1 - 12732 <= 12000)
-		 {
-			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 15627;
-		 }
-		 else
-		 {
-			gun_y_scaled[j] = gun_y_raw[j] * 1.1 - 12732;
-		 }
-	  }
       else if (!core_stricmp(machine.system().name, "ppsatan") || !core_stricmp(machine.system().parent, "ppsatan"))
 	  //Correct ratio and offset for Poka Poka Satan
 	  {
