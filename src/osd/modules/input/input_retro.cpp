@@ -915,7 +915,7 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 
          if (jpark2x < 0)
 	     {
-	        gun_x_scaled[1] = 2 * gun_x_raw[1] * 0.8 - 12000;
+	        gun_x_scaled[1] = 2 * gun_x_raw[1] * 0.8 - 14141;
 	        gun_y_scaled[1] = 2 * gun_y_raw[1] * 0.5;
 	     }
 	     else
@@ -942,16 +942,16 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 if (lockonx[j] < -16221)
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 0.9 + 4613;
+			 gun_x_scaled[j] = lockonx[j] * 0.9 + 5334;
 		 }
 		 else
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 1.2 + 5982;
+			 gun_x_scaled[j] = lockonx[j] * 1.2 + 5261;
 		 }
 
 		 if (lockony[j] < 1235)
 		 {
-			 gun_y_scaled[j] = lockony[j] * 1.2 + 4614;
+			 gun_y_scaled[j] = lockony[j] * 1.2 + 3371;
 		 }
 		 else
 		 {
@@ -1143,16 +1143,16 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 
 		 if (wildpilotx * 0.675 - 5814 < -9752)
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.45 - 3896;
+			 gun_x_scaled[1] = wildpilotx * 0.45 - 4190;
 		 }
 		 else
 		 {
-			 gun_x_scaled[1] = wildpilotx * 0.675 - 4044;
+			 gun_x_scaled[1] = wildpilotx * 0.675 - 3750;
 		 }
 
 		 if (wildpiloty < 189)
 		 {
-			 gun_y_scaled[1] = wildpiloty * 0.6 - 1660;
+			 gun_y_scaled[1] = wildpiloty * 0.6 - 2557;
 		 }
 		 else
 		 {
