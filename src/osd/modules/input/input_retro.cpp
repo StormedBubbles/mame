@@ -942,16 +942,16 @@ void retro_osd_interface::process_lightgun_state(running_machine &machine)
 	  {
 		 if (lockonx[j] < -16221)
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 0.9 + 5334;
+			 gun_x_scaled[j] = lockonx[j] * 0.9 + 2864;
 		 }
 		 else
 		 {
-			 gun_x_scaled[j] = lockonx[j] * 1.2 + 5261;
+			 gun_x_scaled[j] = lockonx[j] * 1.2 + 7731;
 		 }
 
 		 if (lockony[j] < 1235)
 		 {
-			 gun_y_scaled[j] = lockony[j] * 1.2 + 3371;
+			 gun_y_scaled[j] = lockony[j] * 1.2 + 3028;
 		 }
 		 else
 		 {
