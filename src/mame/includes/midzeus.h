@@ -84,7 +84,8 @@ public:
 		m_io_49way_x(*this, "49WAYX"),
 		m_io_49way_y(*this, "49WAYY"),
 		m_io_keypad(*this, "KEYPAD"),
-		m_digits(*this, "digit%u", 0U)
+		m_digits(*this, "digit%u", 0U),
+		m_io_gun_trigger(*this, "TRIGGER")
 	{ }
 
 	// turn on for hardcoded video debugging inputs
@@ -151,6 +152,7 @@ protected:
 	optional_ioport m_io_49way_y;
 	optional_ioport m_io_keypad;
 	output_finder<7> m_digits;
+	optional_ioport m_io_gun_trigger;
 
 	emu_timer *     m_display_irq_off_timer = nullptr;
 	uint8_t         m_crusnexo_leds_select = 0;

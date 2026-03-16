@@ -697,19 +697,10 @@ void midzeus_state::invasn_gun_w(offs_t offset, uint32_t data, uint32_t mem_mask
 		if (((old_control ^ m_gun_control) & pmask) != 0 && (m_gun_control & pmask) == 0)
 		{
 			const rectangle &visarea = m_screen->visible_area();
-			if (((m_io_gun_x[player]->read() * visarea.width() / 255 + (0.0127 * visarea.width()) + visarea.min_x + BEAM_XOFFS) <= ((0.0127 * visarea.width()) + visarea.min_x + BEAM_XOFFS))
-				|| ((m_io_gun_y[player]->read() * visarea.height() / 255 + (0.0354 * visarea.height()) + visarea.min_y) <= 11)
-				|| ((m_io_gun_y[player]->read() * visarea.height() / 255 + (0.0354 * visarea.height()) + visarea.min_y) >= visarea.height() + 7)
-				)
-			{
-				m_gun_x[player] = visarea.width() + (0.0127 * visarea.width()) + visarea.min_x + BEAM_XOFFS;
-				m_gun_y[player] = 0;
-			}
-			else
-			{
-				m_gun_x[player] = m_io_gun_x[player]->read() * visarea.width() / 255 + (0.0127 * visarea.width()) + visarea.min_x + BEAM_XOFFS;
-				m_gun_y[player] = m_io_gun_y[player]->read() * visarea.height() / 255 + (0.0354 * visarea.height()) + visarea.min_y;
-			}
+			m_gun_x[player] = (m_io_gun_x[player]->read() * visarea.width() / 0xff + visarea.min_x + BEAM_XOFFS + BEAM_DX * 2) % m_screen->width();
+			m_gun_x[player] = std::clamp(m_gun_x[player], BEAM_DX, m_screen->width() - BEAM_DX);
+			m_gun_y[player] = m_io_gun_y[player]->read() * visarea.height() / 0xff + visarea.min_y + BEAM_DY * 2;
+
 			m_gun_timer[player]->adjust(m_screen->time_until_pos(std::max(0, m_gun_y[player] - BEAM_DY), std::max(0, m_gun_x[player] - BEAM_DX)), player);
 		}
 	}
@@ -718,18 +709,27 @@ void midzeus_state::invasn_gun_w(offs_t offset, uint32_t data, uint32_t mem_mask
 
 uint32_t midzeus_state::invasn_gun_r()
 {
+	// bits 8,9: gun triggers
+	uint32_t result = 0xffff;
+	result ^= m_io_gun_trigger->read() << 8;
+
 	int beamx = m_screen->hpos();
 	int beamy = m_screen->vpos();
-	uint32_t result = 0xffff;
 	int player;
 
 	for (player = 0; player < 2; player++)
 	{
-		int diffx = beamx - m_gun_x[player];
-		int diffy = beamy - m_gun_y[player];
-		if (diffx >= -BEAM_DX && diffx <= BEAM_DX && diffy >= -BEAM_DY && diffy <= BEAM_DY)
-			result ^= 0x1000 << player;
+		if (int io_gun_x = m_io_gun_x[player]->read(); io_gun_x > 0 && io_gun_x < 0xff)
+		{
+			int const diffx = beamx - m_gun_x[player];
+			int const diffy = beamy - m_gun_y[player];
+
+			// bits 12,13: gun position in range
+			if (diffx >= -BEAM_DX && diffx <= BEAM_DX && diffy >= -BEAM_DY && diffy <= BEAM_DY)
+				result ^= 0x1000 << player;
+		}
 	}
+
 	return result;
 }
 
@@ -892,8 +892,9 @@ static INPUT_PORTS_START( mk4 )
 	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_START4 )
 	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_VOLUME_DOWN )
 	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_VOLUME_UP )
-	PORT_BIT( 0x6000, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )    /* Bill */
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_INTERLOCK ) // Coin Door
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNUSED )
+	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )
 
 	PORT_START("IN1")
 	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    ) PORT_PLAYER(1) PORT_8WAY
@@ -997,36 +998,36 @@ static INPUT_PORTS_START( invasn )
 	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_START4 )
 	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_VOLUME_DOWN )
 	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_VOLUME_UP )
-	PORT_BIT( 0x6000, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )    /* Bill */
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_INTERLOCK ) // Coin Door
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNUSED )
+	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )
 
 	PORT_START("IN1")
-	PORT_BIT( 0x000f, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 ) PORT_PLAYER(1)
-	PORT_BIT( 0x00e0, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x0f00, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 ) PORT_PLAYER(2)
-	PORT_BIT( 0xe000, IP_ACTIVE_LOW, IPT_UNUSED )
+	PORT_BIT( 0xffff, IP_ACTIVE_LOW, IPT_UNUSED )
 
 	PORT_START("IN2")
 	PORT_BIT( 0xffff, IP_ACTIVE_LOW, IPT_UNUSED )
 
-	PORT_START("GUNX1")     /* fake analog X */
+	PORT_START("TRIGGER")
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_BUTTON1 ) PORT_PLAYER(1)
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_BUTTON1 ) PORT_PLAYER(2)
+
+	PORT_START("GUNX1") // fake analog X
 	PORT_BIT( 0xff, 0x80, IPT_LIGHTGUN_X ) PORT_CROSSHAIR(X, 1.0, 0.0, 0) PORT_SENSITIVITY(50) PORT_KEYDELTA(10)
 
-	PORT_START("GUNY1")     /* fake analog Y */
+	PORT_START("GUNY1") // fake analog Y
 	PORT_BIT( 0xff, 0x80, IPT_LIGHTGUN_Y ) PORT_CROSSHAIR(Y, 1.0, 0.0, 0) PORT_SENSITIVITY(70) PORT_KEYDELTA(10)
 
-	PORT_START("GUNX2")     /* fake analog X */
+	PORT_START("GUNX2") // fake analog X
 	PORT_BIT( 0xff, 0x80, IPT_LIGHTGUN_X ) PORT_CROSSHAIR(X, 1.0, 0.0, 0) PORT_SENSITIVITY(50) PORT_KEYDELTA(10) PORT_PLAYER(2)
 
-	PORT_START("GUNY2")     /* fake analog Y */
+	PORT_START("GUNY2") // fake analog Y
 	PORT_BIT( 0xff, 0x80, IPT_LIGHTGUN_Y ) PORT_CROSSHAIR(Y, 1.0, 0.0, 0) PORT_SENSITIVITY(70) PORT_KEYDELTA(10) PORT_PLAYER(2)
 INPUT_PORTS_END
 
 
 static INPUT_PORTS_START( crusnexo )
-	PORT_START("DIPS")      /* DS1 */
+	PORT_START("DIPS") // DS1
 	PORT_DIPNAME( 0x001f, 0x001f, "Country Code" )
 	PORT_DIPSETTING(      0x001f, DEF_STR( USA ) )
 	PORT_DIPSETTING(      0x001e, "Germany" )
@@ -1094,25 +1095,26 @@ static INPUT_PORTS_START( crusnexo )
 	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_START4 )
 	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_VOLUME_DOWN )
 	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_VOLUME_UP )
-	PORT_BIT( 0x6000, IP_ACTIVE_LOW, IPT_UNUSED )
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_INTERLOCK ) // Coin Door
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNUSED )
 	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )
 
-	PORT_START("IN1")   /* Listed "names" are via the manual's "JAMMA" pinout sheet" */
-	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
-	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON6 ) PORT_NAME("Radio")       /* Radio Switch */
-	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
-	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
-	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON7 ) PORT_NAME("View 1")      /* View 1 */
-	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_BUTTON8 ) PORT_NAME("View 2")      /* View 2 */
-	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_BUTTON9 ) PORT_NAME("View 3")      /* View 3 */
-	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_BUTTON10 ) PORT_NAME("View 4")     /* View 4 */
-	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_BUTTON2 ) PORT_NAME("1st Gear")    /* Gear 1 */
-	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_BUTTON3 ) PORT_NAME("2nd Gear")    /* Gear 2 */
-	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_BUTTON4 ) PORT_NAME("3rd Gear")    /* Gear 3 */
-	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_BUTTON5 ) PORT_NAME("4th Gear")    /* Gear 4 */
-	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
-	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
-	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN )                          /* Not Used */
+	PORT_START("IN1") // Listed "names" are via the manual's "JAMMA" pinout sheet"
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON6 ) PORT_NAME("Radio")    // Radio Switch
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
+	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON7 ) PORT_NAME("View 1")   // View 1
+	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_BUTTON8 ) PORT_NAME("View 2")   // View 2
+	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_BUTTON9 ) PORT_NAME("View 3")   // View 3
+	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_BUTTON10 ) PORT_NAME("View 4")  // View 4
+	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_BUTTON2 ) PORT_NAME("1st Gear") // Gear 1
+	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_BUTTON3 ) PORT_NAME("2nd Gear") // Gear 2
+	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_BUTTON4 ) PORT_NAME("3rd Gear") // Gear 3
+	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_BUTTON5 ) PORT_NAME("4th Gear") // Gear 4
+	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN )                       // Not Used
 	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN )
 
 	PORT_START("IN2")
@@ -1120,18 +1122,18 @@ static INPUT_PORTS_START( crusnexo )
 	PORT_BIT( 0xfff8, IP_ACTIVE_LOW, IPT_UNUSED )
 
 	PORT_START("KEYPAD")
-	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 3") PORT_CODE(KEYCODE_3_PAD)   /* keypad 3 */
-	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 1") PORT_CODE(KEYCODE_1_PAD)   /* keypad 1 */
-	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 2") PORT_CODE(KEYCODE_2_PAD)   /* keypad 2 */
-	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 6") PORT_CODE(KEYCODE_6_PAD)   /* keypad 6 */
-	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 4") PORT_CODE(KEYCODE_4_PAD)   /* keypad 4 */
-	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 5") PORT_CODE(KEYCODE_5_PAD)   /* keypad 5 */
-	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 9") PORT_CODE(KEYCODE_9_PAD)   /* keypad 9 */
-	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 7") PORT_CODE(KEYCODE_7_PAD)   /* keypad 7 */
-	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 8") PORT_CODE(KEYCODE_8_PAD)   /* keypad 8 */
-	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad #") PORT_CODE(KEYCODE_PLUS_PAD)    /* keypad # */
-	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad *") PORT_CODE(KEYCODE_MINUS_PAD)   /* keypad * */
-	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 0") PORT_CODE(KEYCODE_0_PAD)   /* keypad 0 */
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 3") PORT_CODE(KEYCODE_3_PAD)     // keypad 3
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 1") PORT_CODE(KEYCODE_1_PAD)     // keypad 1
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 2") PORT_CODE(KEYCODE_2_PAD)     // keypad 2
+	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 6") PORT_CODE(KEYCODE_6_PAD)     // keypad 6
+	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 4") PORT_CODE(KEYCODE_4_PAD)     // keypad 4
+	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 5") PORT_CODE(KEYCODE_5_PAD)     // keypad 5
+	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 9") PORT_CODE(KEYCODE_9_PAD)     // keypad 9
+	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 7") PORT_CODE(KEYCODE_7_PAD)     // keypad 7
+	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 8") PORT_CODE(KEYCODE_8_PAD)     // keypad 8
+	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad #") PORT_CODE(KEYCODE_PLUS_PAD)  // keypad #
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad *") PORT_CODE(KEYCODE_MINUS_PAD) // keypad *
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_OTHER ) PORT_NAME("Keypad 0") PORT_CODE(KEYCODE_0_PAD)     // keypad 0
 
 	PORT_START("ANALOG3")
 	PORT_BIT( 0xff, 0x80, IPT_PADDLE ) PORT_MINMAX(0x10,0xf0) PORT_SENSITIVITY(25) PORT_KEYDELTA(20)
@@ -1210,8 +1212,9 @@ static INPUT_PORTS_START( thegrid )
 	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_START4 )
 	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_VOLUME_DOWN )
 	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_VOLUME_UP )
-	PORT_BIT( 0x6000, IP_ACTIVE_LOW, IPT_UNUSED )
-	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )    /* Bill */
+	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_INTERLOCK ) // Coin Door
+	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNUSED )
+	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BILL1 )
 
 	PORT_START("IN1")   /* Listed "names" are via the manual's "JAMMA" pinout sheet" */
 	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    ) PORT_PLAYER(1) PORT_8WAY /* Not Used */
@@ -1242,18 +1245,18 @@ static INPUT_PORTS_START( thegrid )
 	PORT_BIT( 0xff, 0x38, IPT_AD_STICK_Y ) PORT_MINMAX(0x00,0x6f) PORT_SENSITIVITY(100) PORT_KEYDELTA(10) PORT_REVERSE
 
 	PORT_START("KEYPAD")
-	PORT_BIT(0x001, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 1") PORT_CODE(KEYCODE_1_PAD)     /* keypad 1 */
-	PORT_BIT(0x002, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 4") PORT_CODE(KEYCODE_4_PAD)     /* keypad 4 */
-	PORT_BIT(0x004, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 7") PORT_CODE(KEYCODE_7_PAD)     /* keypad 7 */
-	PORT_BIT(0x008, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad *") PORT_CODE(KEYCODE_ASTERISK)  /* keypad * */
-	PORT_BIT(0x010, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 2") PORT_CODE(KEYCODE_2_PAD)     /* keypad 2 */
-	PORT_BIT(0x020, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 5") PORT_CODE(KEYCODE_5_PAD)     /* keypad 5 */
-	PORT_BIT(0x040, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 8") PORT_CODE(KEYCODE_8_PAD)     /* keypad 8 */
-	PORT_BIT(0x080, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 0") PORT_CODE(KEYCODE_0_PAD)     /* keypad 0 */
-	PORT_BIT(0x100, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 3") PORT_CODE(KEYCODE_3_PAD)     /* keypad 3 */
-	PORT_BIT(0x200, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 6") PORT_CODE(KEYCODE_6_PAD)     /* keypad 6 */
-	PORT_BIT(0x400, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 9") PORT_CODE(KEYCODE_9_PAD)     /* keypad 9 */
-	PORT_BIT(0x800, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad #") PORT_CODE(KEYCODE_PLUS_PAD)  /* keypad # */
+	PORT_BIT(0x001, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 1") PORT_CODE(KEYCODE_1_PAD)    // keypad 1
+	PORT_BIT(0x002, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 4") PORT_CODE(KEYCODE_4_PAD)    // keypad 4
+	PORT_BIT(0x004, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 7") PORT_CODE(KEYCODE_7_PAD)    // keypad 7
+	PORT_BIT(0x008, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad *") PORT_CODE(KEYCODE_ASTERISK) // keypad *
+	PORT_BIT(0x010, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 2") PORT_CODE(KEYCODE_2_PAD)    // keypad 2
+	PORT_BIT(0x020, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 5") PORT_CODE(KEYCODE_5_PAD)    // keypad 5
+	PORT_BIT(0x040, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 8") PORT_CODE(KEYCODE_8_PAD)    // keypad 8
+	PORT_BIT(0x080, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 0") PORT_CODE(KEYCODE_0_PAD)    // keypad 0
+	PORT_BIT(0x100, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 3") PORT_CODE(KEYCODE_3_PAD)    // keypad 3
+	PORT_BIT(0x200, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 6") PORT_CODE(KEYCODE_6_PAD)    // keypad 6
+	PORT_BIT(0x400, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad 9") PORT_CODE(KEYCODE_9_PAD)    // keypad 9
+	PORT_BIT(0x800, IP_ACTIVE_HIGH, IPT_OTHER) PORT_NAME("Keypad #") PORT_CODE(KEYCODE_PLUS_PAD) // keypad #
 
 	PORT_START("TRACKX1")
 	PORT_BIT(0xff, 0x00, IPT_TRACKBALL_X) PORT_SENSITIVITY(1) PORT_KEYDELTA(1) PORT_PLAYER(1)
