@@ -719,7 +719,7 @@ uint32_t midzeus_state::invasn_gun_r()
 
 	for (player = 0; player < 2; player++)
 	{
-		if (int io_gun_x = m_io_gun_x[player]->read(); io_gun_x > 0 && io_gun_x < 0xff)
+		if (int io_gun_x = m_io_gun_x[player]->read(); io_gun_x > 2 && io_gun_x < 0xfd)
 		{
 			int const diffx = beamx - m_gun_x[player];
 			int const diffy = beamy - m_gun_y[player];
